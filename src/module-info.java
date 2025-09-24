@@ -1,0 +1,2 @@
+module JeuMilleBornes2025 {
+}
