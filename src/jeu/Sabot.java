@@ -11,6 +11,7 @@ public class Sabot implements Iterable<Carte>{
 	int nbCartes;
 	Carte[] pioche;
 	private int modCount = 0;
+	private boolean nextEffectue = false;
 	
 	public Sabot(Carte[] cartes) {
 		pioche = cartes;
@@ -25,22 +26,30 @@ public class Sabot implements Iterable<Carte>{
     private class SabotIterator implements Iterator<Carte> {
         private int index;
         private int expectedModCount = modCount; 
-
+        
+        
         @Override
         public boolean hasNext() {
             return index < nbCartes;
         }
 
         @Override 
-        public Carte next() throws ConcurrentModificationException,NoSuchElementException{
+        public Carte next() throws NoSuchElementException{
         	verificationConcurrence();
-            
-            return pioche[index++];
+        	if (hasNext()) {
+        		 Carte carte = pioche[index];
+        		 index++;
+        		 nextEffectue = true;
+        		 return carte;
+        		 } else {
+        			 throw new NoSuchElementException();
+        	}
+
         }
 
 
 		@Override
-        public void remove() throws ConcurrentModificationException,IllegalStateException{
+        public void remove() throws IllegalStateException{
         	
 			verificationConcurrence();
 			
@@ -52,14 +61,18 @@ public class Sabot implements Iterable<Carte>{
             for (int i = removeIndex; i < nbCartes - 1; i++) {
             	pioche[i] = pioche[i + 1];
             }
+            
+            
+            nextEffectue = false;
             nbCartes--;
             index--;     
             pioche[nbCartes] = null; 
         }
 		
-		private void verificationConcurrence(){
-			 if (modCount != expectedModCount)
-			 throw new ConcurrentModificationException();
+		private void verificationConcurrence() throws ConcurrentModificationException{
+			 if (modCount != expectedModCount) {
+				 throw new ConcurrentModificationException();
+			}
 		 }
 
 		

@@ -87,14 +87,20 @@ public class JeuDeCartes {
     }
 
 	public boolean checkCount() {
-		int nbExemplaires = 0;
-	
 		for (Configuration config : this.configuration) {
-			nbExemplaires += config.getNbExemplaires();
-		
+			Carte carteConfig = config.getCarte();
+			int nbAttendu = config.getNbExemplaires();
+			int nbTrouve = 0;
+			for (Carte carte : donnerCartes()) {
+				if (carte == carteConfig) {
+					nbTrouve++;
+				}
+			}
+			if (nbTrouve != nbAttendu) {
+				return false;
+			}
 		}
-		
-		return nbExemplaires == 106;
+		return true;
 	}
 	
 }
