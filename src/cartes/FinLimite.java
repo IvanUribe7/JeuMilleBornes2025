@@ -7,5 +7,12 @@ public class FinLimite extends Limite{
 		return "FinLimite";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof FinLimite fL) {
+			return toString().equals(fL.toString());
+		}
+		return false;
+	}
 	
 }

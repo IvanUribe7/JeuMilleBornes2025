@@ -1,6 +1,5 @@
 package testsFonctionnels;
 
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 import cartes.Botte;
@@ -43,7 +42,8 @@ public class TestSabot {
 			Carte carte = iterator.next();
 			System.out.println("Je pioche " + carte);
 			iterator.remove();
-			Carte cartePiochee1 = sabot.piocher();
+			//Carte cartePiochee1 = 
+			sabot.piocher();
 			sabot.ajouterCarte(new Botte(cartes.Type.ACCIDENT));
 		}
 		Iterator<Carte> iterator = sabot.iterator();

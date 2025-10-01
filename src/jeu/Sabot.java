@@ -33,9 +33,7 @@ public class Sabot implements Iterable<Carte>{
 
         @Override 
         public Carte next() throws ConcurrentModificationException,NoSuchElementException{
-            if (expectedModCount != modCount) {
-                throw new ConcurrentModificationException("Le sabot a été modifié pendant l'itération.");
-            }
+        	verificationConcurrence();
             
             return pioche[index++];
         }
@@ -44,9 +42,8 @@ public class Sabot implements Iterable<Carte>{
 		@Override
         public void remove() throws ConcurrentModificationException,IllegalStateException{
         	
-        	if (expectedModCount != modCount) {
-                throw new ConcurrentModificationException("Le sabot a été modifié pendant l'itération.");
-            }
+			verificationConcurrence();
+			
             if (index == 0) {
                 throw new IllegalStateException("Impossible de retirer la carte.");
             }
@@ -59,6 +56,13 @@ public class Sabot implements Iterable<Carte>{
             index--;     
             pioche[nbCartes] = null; 
         }
+		
+		private void verificationConcurrence(){
+			 if (modCount != expectedModCount)
+			 throw new ConcurrentModificationException();
+		 }
+
+		
     }
 
 	
@@ -78,6 +82,8 @@ public class Sabot implements Iterable<Carte>{
 			nbCartes ++;
 		
 		}
+		
+		modCount++;
 	}
 	
 	public Carte piocher() {
@@ -89,6 +95,7 @@ public class Sabot implements Iterable<Carte>{
         }
 		Carte cartePiocher = it.next();
 		it.remove();
+		modCount++;
 		return cartePiocher;
 	}
 	

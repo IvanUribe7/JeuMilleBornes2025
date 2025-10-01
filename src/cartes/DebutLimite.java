@@ -7,4 +7,12 @@ public class DebutLimite extends Limite {
 		return "Limite 50";
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof DebutLimite dL) {
+			return toString().equals(dL.toString());
+		}
+		return false;
+	}
+	
 }

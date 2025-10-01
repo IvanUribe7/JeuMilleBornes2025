@@ -2,12 +2,7 @@ package cartes;
 
 public class JeuDeCartes {
 
-	private Configuration[] configuration ;
-
-	
-	public JeuDeCartes() {
-		
-		this.configuration = new Configuration[]{
+	private Configuration[] configuration  = new Configuration[]{
         		new Configuration(new Borne(25), 10),
                 new Configuration(new Borne(50), 10),
                 new Configuration(new Borne(75), 10),
@@ -28,7 +23,6 @@ public class JeuDeCartes {
                 new Configuration(new DebutLimite(), 4),
                 new Configuration(new FinLimite(), 6)
         };
-	}	
 	
 	public String affichageJeuCartes() {
 		
@@ -53,7 +47,7 @@ public class JeuDeCartes {
 		private int nbExemplaires;
 		private Carte carte;
 		
-		public Configuration(Carte carte,int nbExemplaires) {
+		private Configuration(Carte carte,int nbExemplaires) {
 			this.carte = carte;
 			this.nbExemplaires = nbExemplaires;
 		}
@@ -69,15 +63,20 @@ public class JeuDeCartes {
 	}
 	
     public Carte[] donnerCartes() {
-    	int i = 0;
-    	Carte[] cartes = new Carte[106];   
+    	int nbExemplaires = 0;   
     	JeuDeCartes jDC = new JeuDeCartes();
+    	
     	for (Configuration config : jDC.configuration) {
-            int nbExemplaires = config.getNbExemplaires(); 
+            nbExemplaires += config.getNbExemplaires();
+    	}
+    	
+    	Carte[] cartes = new Carte[nbExemplaires];
+     	
+    	for (Configuration config : jDC.configuration) {
             
-            for (int j = 0; j < nbExemplaires;j++, i++) {
+            for (int j = 0; j < config.getNbExemplaires();j++) {
             	
-            	cartes[i] = config.getCarte();
+            	cartes[j] = config.getCarte();
             	
             }    		
             
